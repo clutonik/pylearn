@@ -6,6 +6,7 @@ people who are helping me in keeping my interests going with few discussions aft
 
 Table of Contents
 
+
 - Frameworks
     - [fastapi](fastapi/)
 - Concepts
