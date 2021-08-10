@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Path, Query
 from typing import Optional
 
 app = FastAPI()
@@ -9,6 +9,19 @@ app = FastAPI()
 @app.get("/product/{product_id}")
 def read_product(product_id: int):
     return {"product_id": product_id}
+
+# ---------------
+# Path Parameter (metadata and number validations)
+# ---------------
+# Note: ... marks it as required
+@app.get("/product/{product_id}/metadata")
+def read_product_with_metadata(
+    product_id: int = Path(..., title="Product ID", 
+                            description="The product identifier",
+                            ge=1)
+):
+    return {"product_id": product_id }
+    
 
 # ---------------
 #  QUERY Parameters (with default values)
@@ -48,3 +61,42 @@ async def read_items_booleans(skip: int = 0, all: bool = True):
         return {"products": "all"}
 
     return {"products": "some"}
+
+# ---------------
+# QUERY Parameters (additional validations)
+# ---------------
+# Note: Here Query() is used to define a query parameter and 
+# its first argument is the default value and min_length is 
+# the minimum length of the value which acts as a validator.
+@app.get("/items/additional")
+async def read_items_additional(q: Optional[str] = Query(None, min_length=3, max_length=10)):
+    results = { "items": [{ "item_id": "test"}] }
+    if q:
+        results.update({"q": q})
+    return results
+
+# ---------------
+# QUERY Parameters (add more metadata)
+# ---------------
+# Note: title and description will be shown in 
+@app.get("/items/additional/metadata")
+async def read_items_additional_metadata(
+    q: Optional[str] = Query(
+        None,
+        title="Query", 
+        description="Query description")):
+    return {"q": q}
+
+# ---------------
+# QUERY Parameters (deprecated query parameters)
+# ---------------
+# Note: You can use deprecated query parameters using below ways:
+@app.get("/items/deprecated")
+async def read_items_deprecated(
+    q: Optional[str] = Query(
+        None, 
+        title="Query", 
+        description="Query description",
+        deprecated=True)
+    ):
+    return {"q": q}
