@@ -9,6 +9,13 @@ Table of Contents
 - Frameworks
     - [fastapi](fastapi/)
 - Concepts
+    - [data-structures](data-structures/)
+      - [arrays](data-structures/arrays/)
+      - [dictionaries](data-structures/dictionaries/)
+      - [lists](data-structures/lists/)
+      - [tuples](data-structures/tuples/)
+    - [algorithms](algorithms/)
+      - [recursion](algorithms/recursion/)
     - [pydantic](pydantic/)
-    - [type-hinting](type-hinting/)
-    - [async-io](async-io/)
+    - [type-hinting](type-hinting/) - TODO
+    - [async-io](async-io/) - TODO
