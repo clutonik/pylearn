@@ -14,6 +14,7 @@ Table of Contents
       - [dictionaries](data-structures/dictionaries/)
       - [lists](data-structures/lists/)
       - [tuples](data-structures/tuples/)
+      - [linked-lists](data-structures/linked_lists/)
     - [algorithms](algorithms/)
       - [recursion](algorithms/recursion/)
     - [pydantic](pydantic/)
