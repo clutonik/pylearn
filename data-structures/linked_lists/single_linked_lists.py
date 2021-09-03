@@ -47,6 +47,13 @@ class PictureLinkedList:
             node = node.next
 
     def length(self):
+        """
+        returns number of elements/nodes in list
+
+        returns:
+            total: number of nodes in list
+
+        """
         current_node = self.head
         total = 0
         while current_node != None:
@@ -55,29 +62,95 @@ class PictureLinkedList:
 
         return total
 
-    # TODO:
-    # 1. Create a method to insert a node after a specific node
-    # 2. Create a method to insert a node before a specific node
+    def add_after(self, picture: Picture, target_picture: Picture):
+        """
+        adds a new Picture Node after a specific node
 
-    def insert(self, value: Picture, position=None):
+        Args:
+            picture (Picture): New Picture to Add
+            target_picture(Picture): Picture to add new image after
+
+        Raises:
+            Exception: target_picture not found
+        """
+        assert type(
+            picture) == Picture and type(target_picture) == Picture, 'only pictures can be added to this list'
+
+        # check if list is empty
+        if self.length() == 0:
+            print('list is empty')
+            return
+
+        # create PictureNode for linked list
+        new_node = PictureNode(data=picture)
+
+        # loop over list
+        for node in self:
+            if node.data.name == target_picture.name:
+                new_node.next = node.next
+                node.next = new_node
+                return
+
+        raise Exception(
+            "add_after(): picture with name '%s' not found" % target_picture.name)
+
+    def add_before(self, picture: Picture, target_picture: Picture):
+        """
+        adds a new Picture Node before a specific node
+
+        Args:
+            picture (Picture): New Picture to Add
+            target_picture(Picture): Picture to add new image before 
+
+        Raises:
+            Exception: target_picture not found
+        """
+        assert type(
+            picture) == Picture and type(target_picture) == Picture, 'only pictures can be added to this list'
+
+        # check if list is empty
+        if self.length() == 0:
+            print('list is empty')
+            return
+
+        # create PictureNode for linked list
+        new_node = PictureNode(data=picture)
+
+        # loop over list
+        for node in self:
+            if node.next.data.name == target_picture.name:
+                new_node.next = node.next
+                node.next = new_node
+                return
+
+        raise Exception(
+            "add_before(): picture with name '%s' not found" % target_picture.name)
+
+    def append(self, picture: Picture):
+        """
+        adds a new Picture Node at the end of the list
+
+        Args:
+            picture (Picture): New Picture to Add
+
+        """
+        assert type(
+            picture) == Picture, 'only pictures can be added to this list'
         # Create an object of class Node
-        new_node = PictureNode(data=value)
+        new_node = PictureNode(data=picture)
 
-        # check if linked list is empty i.e. head = tail = None
-        if self.head is None:
+        # check if linked list is empty i.e. head = None
+        if self.length() == 0:
             self.head = new_node
             return
 
-        if position == 0:
-            new_node.next = self.head
-            self.head = new_node
-        elif position == None:
-            current_node = self.head
-            while True:
-                if current_node.next is None:
-                    current_node.next = new_node
-                    break
-                current_node = current_node.next
+        # append new_node to the list
+        current_node = self.head
+        while True:
+            if current_node.next is None:
+                current_node.next = new_node
+                break
+            current_node = current_node.next
 
 
 if __name__ == '__main__':
@@ -100,5 +173,15 @@ if __name__ == '__main__':
 
     # Add a new node using insert() method
     picture4 = Picture('test4', url)
-    pictures_list.insert(value=picture4)
+    pictures_list.append(picture=picture4)
+    print(pictures_list)
+
+    # Add a new node after an existing node
+    picture5 = Picture('test5', url)
+    pictures_list.add_after(picture5, picture3)
+    print(pictures_list)
+
+    # Add a new node before an existing node
+    picture6 = Picture('test6', url)
+    pictures_list.add_before(picture6, picture3)
     print(pictures_list)
