@@ -26,6 +26,8 @@ class PictureLinkedList:
         self.head = head
 
     def __repr__(self):
+        if self.head is None:
+            return 'List is empty'
         node = self.head
         nodes = []
         while node is not None:
