@@ -22,8 +22,9 @@ class PictureNode:
 
 
 class PictureLinkedList:
-    def __init__(self, head=None):
+    def __init__(self, head=None, tail=None):
         self.head = head
+        self.tail = tail
 
     def __repr__(self):
         if self.head is None:
@@ -144,6 +145,7 @@ class PictureLinkedList:
         # check if linked list is empty i.e. head = None
         if self.length() == 0:
             self.head = new_node
+            self.tail = new_node
             return
 
         # append new_node to the list
@@ -154,6 +156,67 @@ class PictureLinkedList:
                 break
             current_node = current_node.next
 
+    def remove_duplicates(self):
+        current_node = self.head
+        temp_set = set([current_node.data.name])
+        while current_node.next is not None:
+            if current_node.next.data.name in temp_set:
+                print(
+                    f'duplicate picture found: {current_node.next.data.name}')
+                current_node.next = current_node.next.next
+
+            if current_node.next is not None:
+                temp_set.add(current_node.next.data.name)
+                current_node = current_node.next
+
+    def return_nth_node(self, n):
+        """
+        returns nth node from the tail
+
+        Args:
+            n (int): index from tail
+        """
+        pointer1 = self.head
+        pointer2 = self.head
+
+        for i in range(n):
+            print(pointer2.data)
+            if pointer2 is None:
+                return None
+            pointer2 = pointer2.next
+
+        print(f'final pointer2: {pointer2.data}')
+
+        # moving both pointers together
+        while pointer2 is not None:
+            pointer1 = pointer1.next
+            pointer2 = pointer2.next
+
+        return pointer1.data
+
+    def partition_list(self, n):
+        """
+        re-arranges the list based on the specified value.
+
+        Args:
+            n (str): value to use for sorting
+        """
+        # traverse the list and compare the value
+        current_node = self.head
+
+        while current_node is not None:
+            next_node = current_node.next
+            current_node.next = None
+
+            if current_node.data.name <= n:
+                current_node.next = self.head
+                self.head = current_node
+            else:
+                self.tail.next = current_node
+                self.tail = current_node
+
+            current_node = next_node
+
 
 if __name__ == '__main__':
     # Create Linked List
@@ -162,16 +225,13 @@ if __name__ == '__main__':
     url = 'http://www.test.ca'
     # create head node
     picture1 = Picture('test', url)
-    node1 = PictureNode(data=picture1)
-    pictures_list.head = node1
+    pictures_list.append(picture1)
 
     # Add more nodes
     picture2 = Picture('test2', url)
     picture3 = Picture('test3', url)
-    node2 = PictureNode(data=picture2)
-    node3 = PictureNode(data=picture3)
-    node1.next = node2
-    node2.next = node3
+    pictures_list.append(picture2)
+    pictures_list.append(picture3)
 
     # Add a new node using insert() method
     picture4 = Picture('test4', url)
@@ -186,4 +246,22 @@ if __name__ == '__main__':
     # Add a new node before an existing node
     picture6 = Picture('test6', url)
     pictures_list.add_before(picture6, picture3)
+    print(pictures_list)
+
+    # Add a duplicate node
+    picture7 = Picture('test', url)
+    pictures_list.append(picture=picture7)
+    print(pictures_list)
+
+    # Remove duplicate Node
+    pictures_list.remove_duplicates()
+    print(pictures_list)
+
+    # return nth node from tail
+    n = 3
+    print(f'nth picture from end (n={n}): {pictures_list.return_nth_node(n)}')
+
+    # partition list
+    print(pictures_list)
+    pictures_list.partition_list('test4')
     print(pictures_list)
