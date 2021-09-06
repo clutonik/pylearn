@@ -15,6 +15,8 @@ Table of Contents
       - [lists](data-structures/lists/)
       - [tuples](data-structures/tuples/)
       - [linked-lists](data-structures/linked_lists/)
+        - TODO: 
+          - Implement function to find intersection of two linked lists
     - [algorithms](algorithms/)
       - [recursion](algorithms/recursion/)
     - [pydantic](pydantic/)
