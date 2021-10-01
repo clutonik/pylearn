@@ -1,6 +1,7 @@
 import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
 
 # Global Variables
 THANK_YOU_MESSAGE = 'Thank you for using our software. Exiting now...'
@@ -35,15 +36,14 @@ def read_csv_file(filename: str) -> pd.DataFrame:
     Returns:
         Dataframe of the csv file
     """
-    try:
+    if os.path.exists(filename):
         df = pd.read_csv(filename)
         # Convert ACCIDENT_DATE to datetime
         df['ACCIDENT_DATE'] = pd.to_datetime(
             df['ACCIDENT_DATE'], format='%d/%m/%Y')
         return df
-    except FileNotFoundError:
-        print(f'File {filename} not found')
-        exit(1)
+    else:
+        raise FileNotFoundError(f'File {filename} not found')
 
 
 def filter_dataframe(df: pd.DataFrame, start_date: pd.Timestamp, end_date: pd.Timestamp) -> pd.DataFrame:
@@ -253,7 +253,11 @@ def main():
     args = parser.parse_args()
 
     # Read the csv file
-    df = read_csv_file(filename=args.input_file)
+    try:
+        df = read_csv_file(filename=args.input_file)
+    except FileNotFoundError as e:
+        print(e)
+        exit()
 
     # Display the menu and accept user choice
     display_menu(CHOICES, FUNCTION_MAP, df)
